@@ -18,9 +18,12 @@ def pull_historic_rates(table='A', code='EUR', start_date='2013-01-01', end_date
 	
 
 def pull_todays_rate(table='A', code='EUR'):
-	URL = f"http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/today/"
+	URL = f"http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/today?format=xml"
 	response = requests.get(URL)
-	print(response.content)
+	full_path = os.path.join(folder, f'{code}_{table}_{datetime.date.today().strftime("%Y%m%d")}.xml') 
+	with open(full_path, 'wb') as file:
+		file.write(response.content)
+		file.close()
 
 
 
